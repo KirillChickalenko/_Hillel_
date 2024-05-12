@@ -14,7 +14,7 @@ def return_longer_line(str1: 'str', str2: str) -> str:
 print(return_longer_line('Hi!', 'Git one love'))
 
 
-def return_only_numbers(lst: list) -> bool:
+def is_only_numbers_list(lst: list) -> bool:
     """
    The function accepts a list and returns True if the list consists only of numbers and False if not.
     """
@@ -27,9 +27,9 @@ def return_only_numbers(lst: list) -> bool:
 
 
 lst = [1., 'New York', 76]
-if return_only_numbers(lst):
+if is_only_numbers_list(lst):
     sum(lst)
-print(return_only_numbers(lst))
+print(is_only_numbers_list(lst))
 
 
 def print_eighty_stars() -> None:
