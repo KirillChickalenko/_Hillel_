@@ -39,5 +39,5 @@ def print_eighty_stars() -> None:
     print("*" * 80)
 
 
-def delete_spaces(input_string):
+def delete_spaces(input_string: str) -> str:
     return input_string.replace(" ", "")
