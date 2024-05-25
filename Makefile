@@ -7,5 +7,4 @@ run:
 	isort .
 	flake8 .
 	@echo 'FINISH'
-	pytest .
 	python main.py

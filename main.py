@@ -1,43 +1,23 @@
-print("Hello, bro!")
+import email_sender
 
 
-def return_longer_line(str1: "str", str2: str) -> str:
+def main():
+    mail_body = """
+    <html>
+    <body style="background-color:blue;">
+    <hr style="border:1px solid black;"> <!-- Чорний роздільник -->
+    <p style="color:yellow; font-style:italic; font-size:24px;">My homework</p> <!-- Слова більшого розміру -->
+    <hr style="border:1px solid black;"> <!-- Чорний роздільник -->
+    </body>
+    </html>
     """
-    The function takes two str strings and returns the longest of them.
-    """
-    if len(str1) > len(str2):
-        return str1
-    else:
-        return str2
+    email_sender.send_email(
+        ["kirillchickalenko@ukr.net", "chikalenko.kiriill@gmail.com"],
+        mail_body=mail_body,
+        mail_subject="Hello! This is my homework!",
+        attachment="main.py",
+    )
 
 
-print(return_longer_line("Hi!", "Git one love"))
-
-
-def is_only_numbers_list(lst: list) -> bool:
-    """
-    The function accepts a list and returns True if the list consists only of numbers and False if not.
-    """
-    for item in lst:
-        if type(item) in {int, float}:
-            continue
-        else:
-            return False
-    return True
-
-
-lst = [1.0, "New York", 76]
-if is_only_numbers_list(lst):
-    sum(lst)
-print(is_only_numbers_list(lst))
-
-
-def print_eighty_stars() -> None:
-    """
-    The function outputs a tape of 80 stars to the console. The function takes no arguments and returns no value.
-    """
-    print("*" * 80)
-
-
-def delete_spaces(input_string: str) -> str:
-    return input_string.replace(" ", "")
+if __name__ == "__main__":
+    main()
