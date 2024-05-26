@@ -1,4 +1,0 @@
-I hit Name: NPC: health:100
-I hit Name: NPC: health:92
-I hit Name: NPC: health:84
-I hit Name: NPC: health:76

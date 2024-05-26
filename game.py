@@ -15,12 +15,12 @@ class Character:
 
     def hit_someone(self, other: Self):
         if other.is_alive:
-            self.log_my_actions(f'I hit {other}')
+            self.log_my_actions(f"I hit {other}")
             other.hp -= 8
         if not other.is_alive:
             other.hp = 0
             self.stars = game_const.Stars.WANTED_LOW
-            self.log_my_actions(f'I deal with {other}')
+            self.log_my_actions(f"I deal with {other}")
 
     __repr__ = __str__
 
@@ -29,8 +29,8 @@ class Character:
         return self.is_bigger_zero(self.hp)
 
     def log_my_actions(self, message: str) -> None:
-        with open(f'{self.name}_{id(self)}.txt', 'a') as logfile:
-            logfile.write(f'{message}\n')
+        with open(f"{self.name}_{id(self)}.txt", "a") as logfile:
+            logfile.write(f"{message}\n")
 
     @classmethod
     def get_max_wanted_rate(cls):
@@ -40,16 +40,15 @@ class Character:
     def is_bigger_zero(number: int | float) -> bool:
         return number > 0
 
+
 def create_character(name) -> Character:
-     return Character(name)
+    return Character(name)
 
 
+pedro = Character("Pedro")
+npc = Character("NPC")
 
-
-pedro = Character('Pedro')
-npc = Character('NPC')
-
-print(pedro.is_alive)                    
+print(pedro.is_alive)
 pedro.hit_someone(npc)
 pedro.hit_someone(npc)
 pedro.hit_someone(npc)
