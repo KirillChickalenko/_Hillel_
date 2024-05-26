@@ -22,9 +22,15 @@ class Car:
         if self.cost >= 100_000_000_000:
             return uber_const.Cost.LUX
 
+    def depreciate_cost(self, km: int):
+        self.cost -= km * 10
+
     def __str__(self) -> str:
-        return f"Car: {self.name}: model:{self.model} year: {self.year} cost: {self.cost - self.length*10}"
+        return (
+            f"Car: {self.name}: model:{self.model} year: {self.year} cost: {self.cost}"
+        )
 
 
 auto = Car("Mersedes", "sedan", 100, 2008, 2)
+auto.depreciate_cost(auto.length)
 print(auto)
