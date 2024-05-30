@@ -2,6 +2,10 @@ from typing import Self
 
 import game_const
 
+class ATM:
+    def init_(self):
+        self.money = 100_000
+
 
 class Character:
     def __init__(self, name: str):
@@ -10,6 +14,9 @@ class Character:
         self.hp = game_const.BASE_HP
         self.stars = game_const.Stars.REGULAR_CITIZEN
 
+    def robbery_atm(self, atm: ATM, summa: int ):
+        atm.money += summa
+        atm.money -= summa
     def __str__(self) -> str:
         return f"Name: {self.name}: health:{self.hp}"
 
@@ -44,6 +51,9 @@ class Character:
 def create_character(name) -> Character:
     return Character(name)
 
+pedro = Character('Pedro')
+npc = create_character('NPC')
+atm = ATM()
 
 pedro = Character("Pedro")
 npc = Character("NPC")
