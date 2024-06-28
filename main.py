@@ -1,23 +1,29 @@
-import email_sender
+from datetime import datetime
+
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from starlette import status
+from fastapi import FastAPI
+import config
+
+import dao
+from schemas import NewTrip
+
+templates = Jinja2Templates(directory='templates')
 
 
-def main():
-    mail_body = """
-    <html>
-    <body style="background-color:blue;">
-    <hr style="border:1px solid black;"> <!-- Чорний роздільник -->
-    <p style="color:yellow; font-style:italic; font-size:24px;">My homework</p> <!-- Слова більшого розміру -->
-    <hr style="border:1px solid black;"> <!-- Чорний роздільник -->
-    </body>
-    </html>
-    """
-    email_sender.send_email(
-        ["kirillchickalenko@ukr.net", "chikalenko.kiriill@gmail.com"],
-        mail_body=mail_body,
-        mail_subject="Hello! This is my homework!",
-        attachment="main.py",
-    )
+def lifespan(app: FastAPI):
+    yield
 
 
-if __name__ == "__main__":
-    main()
+app = FastAPI(
+    debug=config.DEBUG,
+    lifespan=lifespan,)
+@app.post('/create',status_code=201)
+def create(trip_data:NewTrip)->NewTrip:
+    trip=dao.create_trip(**trip_data.dict())
+    return trip
+
+@app.delete('/delete/{trip_id}', status_code=204)
+def delete(trip_id: int) -> None:
+    dao.delete_trip(trip_id)
