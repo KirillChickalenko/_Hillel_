@@ -5,9 +5,11 @@ from fastapi.templating import Jinja2Templates
 from starlette import status
 from fastapi import FastAPI
 import config
+from database import Trip
 
 import dao
 from schemas import NewTrip
+from schemas import UpdateTrip
 
 templates = Jinja2Templates(directory='templates')
 
@@ -27,3 +29,13 @@ def create(trip_data:NewTrip)->NewTrip:
 @app.delete('/delete/{trip_id}', status_code=204)
 def delete(trip_id: int) -> None:
     dao.delete_trip(trip_id)
+
+@app.put('/update/start_date', status_code=200)
+def update_start_date(trip_data: UpdateTrip) -> UpdateTrip:
+    trip_id = trip_data.trip_id
+    new_start_date = trip_data.new_start_date
+
+@app.put('/update/end_date', status_code=200)
+def update_end_date(trip_data: UpdateTrip) -> UpdateTrip:
+    trip_id = trip_data.trip_id
+    new_end_date = trip_data.new_end_date

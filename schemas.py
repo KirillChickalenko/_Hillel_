@@ -10,3 +10,7 @@ class NewTrip(BaseModel):
     country: str
     city: str
     hotel_class: int
+
+class UpdateTrip(BaseModel):
+    trip_id: int
+    new_start_date: date
