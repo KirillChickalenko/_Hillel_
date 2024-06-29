@@ -1,7 +1,5 @@
 from datetime import date
-
 from pydantic import BaseModel
-
 
 class NewTrip(BaseModel):
     start_date: date
