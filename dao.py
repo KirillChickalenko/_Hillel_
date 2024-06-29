@@ -1,9 +1,5 @@
-from fastapi import FastAPI
 from datetime import date
 from database import Trip, session
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-from starlette import status
 
 def create_trip(num_of_adults: int, num_of_kids: int, start_date: date, end_date: date, cost: float, country: str, city: str, hotel_class: int, vehicle: str) -> Trip:
     trip = Trip(

@@ -1,11 +1,6 @@
-from datetime import datetime
-
-from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from starlette import status
 from fastapi import FastAPI
 import config
-from database import Trip
 
 import dao
 from schemas import NewTrip
@@ -34,6 +29,7 @@ def delete(trip_id: int) -> None:
 def update_start_date(trip_data: UpdateTrip) -> UpdateTrip:
     trip_id = trip_data.trip_id
     new_start_date = trip_data.new_start_date
+
 
 @app.put('/update/end_date', status_code=200)
 def update_end_date(trip_data: UpdateTrip) -> UpdateTrip:
