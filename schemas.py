@@ -1,5 +1,7 @@
 from datetime import date
+
 from pydantic import BaseModel
+
 
 class NewTrip(BaseModel):
     start_date: date
@@ -8,7 +10,6 @@ class NewTrip(BaseModel):
     country: str
     city: str
     hotel_class: int
-
-class UpdateTrip(BaseModel):
-    trip_id: int
-    new_start_date: date
+    num_of_adults: str
+    num_of_kids: str
+    vehicle: str

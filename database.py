@@ -1,13 +1,12 @@
-from sqlalchemy import create_engine, Column, Integer, String, Float, Date
+from sqlalchemy import Column, Date, Float, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
 
 Base = declarative_base()
 
 
 class Trip(Base):
-    __tablename__ = 'trips'
+    __tablename__ = "trips"
     id = Column(Integer, primary_key=True)
     start_date = Column(Date)
     end_date = Column(Date)
@@ -17,7 +16,7 @@ class Trip(Base):
     hotel_class = Column(Integer)
 
 
-engine = create_engine('sqlite:///trips.db', echo=True)
+engine = create_engine("sqlite:///trips.db", echo=True)
 
 
 Base.metadata.create_all(engine)
