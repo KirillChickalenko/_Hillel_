@@ -1,19 +1,25 @@
-from sqlalchemy import Column, Date, Float, Integer, String, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from datetime import datetime
+
+from sqlalchemy import (Column, DateTime, Float, Integer, Sequence, String,
+                        create_engine)
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
 
 
 class Trip(Base):
     __tablename__ = "trips"
-    id = Column(Integer, primary_key=True)
-    start_date = Column(Date)
-    end_date = Column(Date)
-    cost = Column(Float)
-    country = Column(String)
-    city = Column(String)
-    hotel_class = Column(Integer)
+
+    id = Column(Integer, Sequence("trip_id_seq"), primary_key=True)
+    country = Column(String(100), nullable=False, default="The United Kingdom")
+    city = Column(String(100), nullable=False, default="London")
+    start_date = Column(DateTime, default=datetime)
+    end_date = Column(DateTime, default=datetime)
+    cost = Column(Float, nullable=False, default=100.0)
+    hotel_class = Column(Integer, nullable=False, default=0)
+    amount_of_adults = Column(Integer, nullable=False, default=0)
+    amount_of_kids = Column(Integer, nullable=False, default=0)
+    vehicle = Column(String(100), nullable=False, default="Plane")
 
 
 engine = create_engine("sqlite:///trips.db", echo=True)

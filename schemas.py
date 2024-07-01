@@ -10,6 +10,6 @@ class NewTrip(BaseModel):
     country: str
     city: str
     hotel_class: int
-    num_of_adults: str
-    num_of_kids: str
+    amount_of_adults: str
+    amount_of_kids: str
     vehicle: str

@@ -4,25 +4,25 @@ from database import Trip, session
 
 
 def create_trip(
-    num_of_adults: int,
-    num_of_kids: int,
+    country: str,
+    city: str,
     start_date: date,
     end_date: date,
     cost: float,
-    country: str,
-    city: str,
     hotel_class: int,
+    amount_of_adults: int,
+    amount_of_kids: int,
     vehicle: str,
 ) -> Trip:
     trip = Trip(
-        num_of_adults=num_of_adults,
-        num_of_kids=num_of_kids,
+        country=country,
+        city=city,
         start_date=start_date,
         end_date=end_date,
         cost=cost,
-        country=country,
-        city=city,
         hotel_class=hotel_class,
+        amount_of_adults=amount_of_adults,
+        amount_of_kids=amount_of_kids,
         vehicle=vehicle,
     )
     session.add(trip)
@@ -30,11 +30,18 @@ def create_trip(
     return trip
 
 
-def get_all_trips(limit: int, skip: int) -> list[Trip]:
-    trips = session.query(Trip).limit(limit).offset(skip).all()
-    return trips
-
-
 def delete_trip(trip_id: int) -> None:
     session.query(Trip).filter(Trip.id == trip_id).delete()
     session.commit()
+
+
+def update_trip(trip_id: int, trip: dict) -> Trip:
+    session.query(Trip).filter(Trip.id == trip_id).update(trip)
+    session.commit()
+    product = session.query(Trip).filter(Trip.id == trip_id).first()
+    return product
+
+
+def get_trip_by_id(product_id) -> Trip | None:
+    trip = session.query(Trip).filter(Trip.id == product_id).first()
+    return trip
