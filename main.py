@@ -1,39 +1,47 @@
-print('Hello, bro!')
+from pathlib import Path
+
+from fastapi import FastAPI
+from fastapi.templating import Jinja2Templates
+
+import config
+import dao
+from schemas import NewTrip
+
+templates = Jinja2Templates(directory="templates")
 
 
-def return_longer_line(str1: 'str', str2: str) -> str:
-    """
-    The function takes two str strings and returns the longest of them.
-    """
-    if len(str1) > len(str2):
-        return str1
-    else:
-        return str2
+def lifespan(app: FastAPI):
+    yield
 
 
-print(return_longer_line('Hi!', 'Git one love'))
+app = FastAPI(
+    debug=config.DEBUG,
+    lifespan=lifespan,
+)
 
 
-def is_only_numbers_list(lst: list) -> bool:
-    """
-   The function accepts a list and returns True if the list consists only of numbers and False if not.
-    """
-    for item in lst:
-        if type(item) in {int, float}:
-            continue
-        else:
-            return False
-    return True
+@app.post("/create", status_code=201)
+def create(trip_data: NewTrip) -> NewTrip:
+    trip = dao.create_trip(**trip_data.dict())
+    return trip
 
 
-lst = [1., 'New York', 76]
-if is_only_numbers_list(lst):
-    sum(lst)
-print(is_only_numbers_list(lst))
+@app.delete("/delete/{trip_id}", status_code=204)
+def delete(trip_id: int) -> None:
+    dao.delete_trip(trip_id)
 
 
-def print_eighty_stars() -> None:
-    """
-The function outputs a tape of 80 stars to the console. The function takes no arguments and returns no value.
-    """
-    print('*' * 80)
+@app.put("/api/trips/{trip_id}", tags=["API", "Trips"])
+def update_trip(
+    updated_trip: NewTrip,
+    trip_id: int = Path(gt=0, description="ID of the product"),
+) -> NewTrip:
+
+    dao.update_trip(trip_id, updated_trip.dict())
+    return updated_trip
+
+
+@app.get("/api/trips/{trip_id}", tags=["API", "Trips"])
+def get_trip(trip_id: int = Path(gt=0, description="ID of the trip")) -> NewTrip:
+    trip = dao.get_trip_by_id(trip_id=trip_id)
+    return trip
