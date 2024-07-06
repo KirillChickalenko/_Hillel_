@@ -5,7 +5,6 @@ from sqlalchemy import (UUID, Boolean, Column, DateTime, Float, Integer,
                         Sequence, String, create_engine)
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-import config
 
 Base = declarative_base()
 
@@ -40,6 +39,7 @@ class User(Base):
         return f"<User: {self.name=}; {self.surname=}>"
 
     __repr__ = __str__
+
 
 engine = create_engine("sqlite:///trips.db", echo=True)
 

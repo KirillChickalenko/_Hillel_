@@ -49,7 +49,6 @@ def get_trip_by_id(product_id) -> Trip | None:
     return trip
 
 
-
 def create_user(name: str, email: str, password: str) -> User:
     user = User(
         name=name,

@@ -2,10 +2,10 @@ from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
-from api_router.api_users import api_router_users
 
 import config
 import dao
+from api_router.api_users import api_router_users
 from schemas import NewTrip
 
 templates = Jinja2Templates(directory="templates")
@@ -46,5 +46,6 @@ def update_trip(
 def get_trip(trip_id: int = Path(gt=0, description="ID of the trip")) -> NewTrip:
     trip = dao.get_trip_by_id(trip_id=trip_id)
     return trip
+
 
 app.include_router(api_router_users)
