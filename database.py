@@ -1,8 +1,11 @@
+import uuid
 from datetime import datetime
 
-from sqlalchemy import (Column, DateTime, Float, Integer, Sequence, String,
-                        create_engine)
+from sqlalchemy import (UUID, Boolean, Column, DateTime, Float, Integer,
+                        Sequence, String, create_engine)
 from sqlalchemy.orm import declarative_base, sessionmaker
+
+import config
 
 Base = declarative_base()
 
@@ -21,6 +24,22 @@ class Trip(Base):
     amount_of_kids = Column(Integer, nullable=False, default=0)
     vehicle = Column(String(100), nullable=False, default="Plane")
 
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
+    name = Column(String, index=True)
+    surname = Column(String, index=True)
+    email = Column(String, unique=True)
+    hashed_password = Column(String)
+    user_uuid = Column(UUID, default=uuid.uuid4)
+    is_verified = Column(Boolean, default=False)
+    is_admin = Column(Boolean, default=False)
+
+    def __str__(self):
+        return f"<User: {self.name=}; {self.surname=}>"
+
+    __repr__ = __str__
 
 engine = create_engine("sqlite:///trips.db", echo=True)
 

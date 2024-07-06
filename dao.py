@@ -1,6 +1,8 @@
+import uuid
 from datetime import date
 
-from database import Trip, session
+from database import Trip, User, session
+from utils.utils_hashlib import get_password_hash
 
 
 def create_trip(
@@ -45,3 +47,37 @@ def update_trip(trip_id: int, trip: dict) -> Trip:
 def get_trip_by_id(product_id) -> Trip | None:
     trip = session.query(Trip).filter(Trip.id == product_id).first()
     return trip
+
+
+
+def create_user(name: str, email: str, password: str) -> User:
+    user = User(
+        name=name,
+        email=email,
+        hashed_password=get_password_hash(password),
+    )
+    session.add(user)
+    session.commit()
+    return user
+
+
+def get_user_by_email(email: str) -> User | None:
+    user = session.query(User).filter(User.email == email).first()
+    return user
+
+
+def get_user_by_uuid(user_uuid: uuid.UUID) -> User | None:
+    user = session.query(User).filter(User.user_uuid == user_uuid).first()
+    return user
+
+
+def activate_user_account(user: User) -> User:
+    if user.is_verified:
+
+        return user
+
+    user.is_verified = True
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
