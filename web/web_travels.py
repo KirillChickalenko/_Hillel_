@@ -1,6 +1,7 @@
-from fastapi import (APIRouter, Form)
+from fastapi import APIRouter, Form
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
+
 from dao import get_all_travels
 
 templates = Jinja2Templates(directory="templates")

@@ -1,20 +1,21 @@
 from datetime import datetime
 
-from fastapi import Path, HTTPException, APIRouter
+from fastapi import APIRouter, HTTPException, Path
 from pydantic import BaseModel, Field, HttpUrl
 from starlette import status
 
 import dao
 
-
-api_router = APIRouter(prefix='/api')
+api_router = APIRouter(prefix="/api")
 
 
 class NewTravel(BaseModel):
     date_start: datetime
     date_end: datetime
     title: str = Field(max_length=100, examples=["A travel to the UK."])
-    description: str = Field(max_length=300, default="", examples=["Perfect travel to London."])
+    description: str = Field(
+        max_length=300, default="", examples=["Perfect travel to London."]
+    )
     price: float = Field(ge=0.01, examples=[100.78])
     image: HttpUrl
     hotel_class: int = Field(gt=0, le=5, default=4)
@@ -41,14 +42,19 @@ def get_all_travel() -> list[TravelData]:
 def get_travel_by_name(travel_title: str) -> NewTravel:
     travel = dao.get_travel_by_name(travel_title)
     if not travel:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trip wasn`t found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Trip wasn`t found"
+        )
     return travel
+
 
 @api_router.get("/travel/{travel_id}")
 def get_travel_by_cost(travel_title: float) -> NewTravel:
     travel = dao.get_travel_by_cost(get_travel_by_cost)
     if not travel:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Trip wasn`t found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Trip wasn`t found"
+        )
     return travel
 
 
@@ -58,7 +64,7 @@ def delete_travel(travel_id: int = Path(gt=0, description="ID of the travel")):
     return None
 
 
-@api_router.put('/travel/{travel_id}')
+@api_router.put("/travel/{travel_id}")
 def update_travel(travel_id: int, updated_travel: NewTravel) -> TravelData:
     travel = dao.get_travel_by_id(travel_id=travel_id)
     if not travel:

@@ -1,8 +1,7 @@
 from datetime import datetime
 
-
-from sqlalchemy import (Column, DateTime, Float, Integer, Sequence, String, UUID, Boolean,
-                        Text, create_engine)
+from sqlalchemy import (Column, DateTime, Float, Integer,
+                        Sequence, String, Text, create_engine)
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 import config
@@ -24,9 +23,6 @@ class Travel(Base):
     hotel_class = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
-
-
-
 
 
 engine = create_engine(config.DB_PATH, echo=config.DEBUG)
