@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+
+
+
+
+{% block content %}
+    {% for travel in travels %}
+    <div class="card" style="width: 18rem;">
+  <img src="{{travel.image}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{ travel.title }}</h5>
+    <p class="card-text">{{travel.description}}</p>
+    <a href="#" class="btn btn-primary">Details</a>
+  </div>
+</div>
+
+    {% endfor %}
+<div class="container">
+    <div class="row pt-2 pb-2 container">
+
+    {% for trip in trips %}
+        <div class="card pb-2 pt-2 pl-2 pr-2" style="width: 18rem;">
+          <img src="{{ trip.cover_url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ travel.name }}</h5>
+            <p class="card-text">{{ travel.description|truncate(80, False) }}</p>
+            <a href="{{ url_for('get_product_by_id_web', product_id=product.id) }}" class="btn btn-primary">{{ details }}</a>
+              {% if user %}
+              <form method="post" action="{{ url_for('add_product_to_cart') }}">
+              <button type="submit" class="btn btn-success">{{ buy_trip }}</button>
+              </form>
+              {% endif %}
+
+          </div>
+        </div>
+
+    {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
+
+
+

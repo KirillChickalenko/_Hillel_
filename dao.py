@@ -1,82 +1,49 @@
-import uuid
-from datetime import date
-
-from database import Trip, User, session
-from utils.utils_hashlib import get_password_hash
+from database import Travel, session
 
 
-def create_trip(
-    country: str,
-    city: str,
-    start_date: date,
-    end_date: date,
-    cost: float,
-    hotel_class: int,
-    amount_of_adults: int,
-    amount_of_kids: int,
-    vehicle: str,
-) -> Trip:
-    trip = Trip(
+def create_travel(
+    title: str, description: str, price: float, country: str, image, hotel_class: int, date_start, date_end
+) -> Travel:
+    travel = Travel(
+        title=title,
+        description=description,
+        price=price,
         country=country,
-        city=city,
-        start_date=start_date,
-        end_date=end_date,
-        cost=cost,
+        image=str(image),
         hotel_class=hotel_class,
-        amount_of_adults=amount_of_adults,
-        amount_of_kids=amount_of_kids,
-        vehicle=vehicle,
+        date_start=date_start,
+        date_end=date_end,
     )
-    session.add(trip)
+    session.add(travel)
     session.commit()
-    return trip
+    return travel
 
 
-def delete_trip(trip_id: int) -> None:
-    session.query(Trip).filter(Trip.id == trip_id).delete()
+def get_all_travels(limit: int, skip: int, title: str | None = None) -> list[Travel]:
+    if title:
+        travels = session.query(Travel).filter(Travel.title.icontains(title)).limit(limit).offset(skip).all()
+    else:
+        travels = session.query(Travel).limit(limit).offset(skip).all()
+    return travels
+
+
+def get_travel_by_name(travel_title) -> Travel | None:
+    travel = session.query(Travel).filter(Travel.title == travel_title).first()
+    return travel
+
+def get_travel_by_cost(travel_cost) -> Travel | None:
+    travel = session.query(Travel).filter(Travel.cost == travel_cost).first()
+    return travel
+
+
+def delete_travel(travel_id) -> None:
+    session.query(Travel).filter(Travel.id == travel_id).delete()
     session.commit()
 
 
-def update_trip(trip_id: int, trip: dict) -> Trip:
-    session.query(Trip).filter(Trip.id == trip_id).update(trip)
+def update_travel(travel_id: int, travel_data: dict) -> Travel:
+    travel_data['image'] = str(travel_data['image'])
+    session.query(Travel).filter(Travel.id == travel_id).update(travel_data)
     session.commit()
-    product = session.query(Trip).filter(Trip.id == trip_id).first()
-    return product
-
-
-def get_trip_by_id(product_id) -> Trip | None:
-    trip = session.query(Trip).filter(Trip.id == product_id).first()
-    return trip
-
-
-def create_user(name: str, email: str, password: str) -> User:
-    user = User(
-        name=name,
-        email=email,
-        hashed_password=get_password_hash(password),
-    )
-    session.add(user)
-    session.commit()
-    return user
-
-
-def get_user_by_email(email: str) -> User | None:
-    user = session.query(User).filter(User.email == email).first()
-    return user
-
-
-def get_user_by_uuid(user_uuid: uuid.UUID) -> User | None:
-    user = session.query(User).filter(User.user_uuid == user_uuid).first()
-    return user
-
-
-def activate_user_account(user: User) -> User:
-    if user.is_verified:
-
-        return user
-
-    user.is_verified = True
-    session.add(user)
-    session.commit()
-    session.refresh(user)
-    return user
+    travel = session.query(Travel).filter(Travel.id == travel_id).first()
+    return travel

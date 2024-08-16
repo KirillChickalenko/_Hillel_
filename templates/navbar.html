@@ -1,0 +1,54 @@
+<style>
+  .navbar {
+    background-color: lightblue !important;
+  }
+  .search-container {
+    display: flex;
+    align-items: center;
+  }
+  .search-input {
+    padding: 5px 10px;
+    font-size: 16px;
+  }
+  .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .search-button img {
+    width: 20px;
+    height: 20px;
+  }
+  .search-text {
+    margin-left: 6px;
+    font-family: 'Venetian', serif;
+    color: darkblue;
+    font-size: 20px;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://kartin.papik.pro/uploads/posts/2023-07/thumbs/1688578291_kartin-papik-pro-p-kartinki-planeta-zemlya-na-belom-fone-26.png">
+      <img src="https://kartin.papik.pro/uploads/posts/2023-07/thumbs/1688578291_kartin-papik-pro-p-kartinki-planeta-zemlya-na-belom-fone-26.png" alt="Navbar Image" style="height: 40px;">
+      <div style="font-family: 'Venetian', serif; color: darkblue; text-align: center;">Meridian</div>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="#">Main</a>
+        <a class="nav-link" href="#">About us</a>
+        <a class="nav-link" href="#">Create a trip</a>
+        <form class="search-container" role="search" method="post" action="{{ url_for('index') }}">
+          <input type="search" name="query" placeholder="Search for a trip...">
+          <button type="submit" class="search-button">
+            <img src="https://cdn-icons-png.flaticon.com/512/109/109164.png" alt="Search">
+          </button>
+          <span class="search-text">Trips even to the edge of the world!</span>
+        </form>
+      </div>
+    </div>
+  </div>
+</nav>
